@@ -1,0 +1,33 @@
+<html>
+<head>
+    <script type="text/javascript">
+      var maxTriag = 0;
+      var key = 0;
+
+      for (var p = 4; p < 1000; p++) {
+        var triag = 0;
+
+        for (var a = 1; a < p-3; a++) {
+          for (var b = 1; b < p-3; b++) {
+            var c = p-(a+b);
+            if (c*c === a*a + b*b) {
+              triag++;
+            }
+          }
+        }
+
+        if (triag > maxTriag) {
+          maxTriag = triag;
+          key = p;
+        }
+      }
+
+      console.log("maxTriag: " + maxTriag);
+      console.log("for p: " + key);
+
+    </script>
+</head>
+<body>
+  <a href="https://projecteuler.net/problem=39"/>Link to problem.</a>
+</body>
+</html>
