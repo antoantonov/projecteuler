@@ -1,0 +1,72 @@
+<html>
+<head>
+    <script type="text/javascript">
+    function isAbundant(n) {
+        var sum = 1;
+        for (var i = 2; i <= n/2; i++) {
+            if (n%i === 0) {
+                sum += i;
+            }
+        }
+        if (sum > n) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function findAbundantUpto(n) {
+        var abundantNums = [];
+        for (var i = 1; i <= n; i++) {
+            if (isAbundant(i)) {
+                abundantNums.push(i);
+            }
+        }
+        return abundantNums;
+    }
+
+    // var abundantNums = findAbundantUpto(28123);
+    var abundantNums = findAbundantUpto(28123);
+    console.log(abundantNums);
+
+    var resultNums = [];
+    // console.log(isAbundant(12));
+    for (var checkedNum = 1; checkedNum <= 28123; checkedNum++) {
+        var shouldStop = false;
+        for (var j = 0; j <= abundantNums.length; j++) {
+            if (shouldStop) {
+                // console.log('inner');
+                break;
+            }
+            if (abundantNums[j] > checkedNum/2) {
+                resultNums.push(checkedNum);
+                console.log(abundantNums[j] + ' > 1/2* ' + checkedNum);
+                break;
+            }
+
+            for (var k = j; k <= abundantNums.length; k++) {
+                if (abundantNums[j]+abundantNums[k] === checkedNum) {
+                    shouldStop = true;
+                    console.log(abundantNums[j] + ' + ' + abundantNums[k] + ' == ' + checkedNum);
+                    break;
+                } else if (abundantNums[j]+abundantNums[k] > checkedNum) {
+                    console.log(abundantNums[j]+ ' + ' + abundantNums[k] + ' > ' + checkedNum);
+                    break;
+                }
+            }
+        }
+    }
+
+    console.log(resultNums);
+    finalSum = 0;
+    for (var i = 0; i < resultNums.length; i++) {
+        finalSum += resultNums[i];
+    }
+    console.log(finalSum);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

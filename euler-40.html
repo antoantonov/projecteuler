@@ -1,0 +1,23 @@
+<html>
+<head>
+    <script type="text/javascript">
+        function numlength(n) {
+            return String(n).length;
+        }
+
+        // console.log(numlength(456));
+        var counter = 0;
+        for (var i=0; i<1000010; i++) {
+            newcounter = counter + numlength(i);
+            if (numlength(newcounter) !== numlength(counter)) {
+                console.log(counter + ": " + i);
+                console.log(newcounter + ": " + (i+1));
+            }
+            counter = newcounter;
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
