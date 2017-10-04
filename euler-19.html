@@ -1,0 +1,109 @@
+<html>
+<head>
+    <script type="text/javascript">
+      /* We are not using this function. It was for scribbling space only.
+         getSundayCount uses the switch data from this function.
+         startDOW is the day of the week of 01. Jan that year. */
+      function generateNormalYear(startDOW) {
+        var sequence;
+
+        switch(startDOW) {
+          case 0:
+            sequence = [0, 3, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5];
+            break;
+          case 1:
+            sequence = [1, 4, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6];
+            break;
+          case 2:
+            sequence = [2, 5, 5, 1, 3, 6, 1, 4, 0, 2, 5, 0];
+            break;
+          case 3:
+            sequence = [3, 6, 6, 2, 4, 0, 2, 5, 1, 3, 6, 1];
+            break;
+          case 4:
+            sequence = [4, 0, 0, 3, 5, 1, 3, 6, 2, 4, 0, 2];
+            break;
+          case 5:
+            sequence = [5, 1, 1, 4, 6, 2, 4, 0, 3, 5, 1, 3];
+            break;
+          case 6:
+            sequence = [6, 2, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
+            break;
+        }
+      }
+
+      /* We are not using this function. It was for scribbling space only.
+         getSundayCount uses the switch data from this function. */
+      function generateLeapYear(startDOW) {
+        var sequence;
+
+        switch(startDOW) {
+          case 0:
+            sequence = [0, 3, 4, 0, 2, 5, 0, 3, 6, 1, 4, 6];
+            break;
+          case 1:
+            sequence = [1, 4, 5, 1, 3, 6, 1, 4, 0, 2, 5, 0];
+            break;
+          case 2:
+            sequence = [2, 5, 6, 2, 4, 0, 2, 5, 1, 3, 6, 1];
+            break;
+          case 3:
+            sequence = [3, 6, 0, 3, 5, 1, 3, 6, 2, 4, 0, 2];
+            break;
+          case 4:
+            sequence = [4, 0, 1, 4, 6, 2, 4, 0, 3, 5, 1, 3];
+            break;
+          case 5:
+            sequence = [5, 1, 2, 5, 0, 3, 5, 1, 4, 6, 2, 4];
+            break;
+          case 6:
+            sequence = [6, 2, 3, 6, 1, 4, 6, 2, 5, 0, 3, 5];
+            break;
+        }
+      }
+
+      /* Counted manually 0s in the sequences
+         of the switch statement in generateNormalYear() and generateLeapYear(). */
+      function getSundayCount(startDOW, isLeapYear) {
+        var isLeapYear = isLeapYear || false;
+        var sundayCount;
+
+        if (isLeapYear) {
+          sundayCount = [3, 2, 1, 2, 2, 1, 1];
+        } else {
+          sundayCount = [2, 2, 2, 1, 3, 1, 1];
+        }
+        return sundayCount[startDOW];
+      }
+
+      function getNextYearDOW(startDOW, isLeapYear) {
+        var isLeapYear = isLeapYear || false;
+        if (isLeapYear) {
+          return (startDOW+2) % 7;
+        } else {
+          return (startDOW+1) % 7;
+        }
+      }
+
+      var totalSundays = 0;
+      var initDOW = getNextYearDOW(1, false); // 01. Jan 1900 was a Monday, and we have to start with 01. Jan 1901 (which is a Tuesday).
+      for (var year = 1901; year < 2001; year++) {
+        var isLeapYear = (!(year % 4) && (year % 100)) || !(year % 400);
+        console.log("==========================");
+        console.log("Year: " + year);
+        console.log("Leap: " + isLeapYear);
+        console.log("Start: " + initDOW);
+        totalSundays += getSundayCount(initDOW, isLeapYear);
+        console.log("TotalSundays: " + totalSundays);
+        initDOW = getNextYearDOW(initDOW, isLeapYear);
+      }
+
+      console.log(totalSundays);
+
+    </script>
+</head>
+<body>
+  <a href="https://projecteuler.net/problem=19"/>Link to problem.</a>
+
+</body>
+</html>
