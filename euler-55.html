@@ -1,0 +1,107 @@
+<html>
+<head>
+    <script type="text/javascript">
+    var lychCount = 0;
+    var maxIterations = 0;
+    // var danger = 0;
+    // var dangerLimit = Math.floor(Number.MAX_SAFE_INTEGER / 100);
+    for(var i = 1; i < 10000; i++) {
+      if (isLych(i)) {
+        lychCount++;
+      }
+    }
+
+    console.log('====================');
+    console.log('====================');
+    console.log('lychCount: ' + lychCount);
+    console.log('maxIterations: ' + maxIterations);
+
+    // console.log('Number.MAX_SAFE_INTEGER: ' + Number.MAX_SAFE_INTEGER);
+
+
+    function addStringsOfSameLength(a, b) {
+      a = a + "";
+      b = b + "";
+      arrA = a.split("").reverse();
+      arrB = b.split("").reverse();
+
+      // console.log("arrA: " + arrA);
+      // console.log("arrB: " + arrB);
+
+      var carry = 0;
+      var arrC = [];
+      // console.log("length: " + arrA.length);
+
+      for (var pos = 0; pos < arrA.length; pos++) {
+          var digit = parseInt(arrA[pos]) + parseInt(arrB[pos]);
+          // console.log(parseInt(arrA[pos]) + " + " + parseInt(arrB[pos]));
+          // console.log('carry, digit, a, b: ' + carry + ", " + digit + ", " + arrA[pos] + ", " + arrB[pos]);
+          if (carry > 0) {
+              digit += carry;
+              carry = 0;
+          }
+          if (digit >= 10) {
+              carry = 1;
+              digit %= 10;
+          }
+          arrC.push(digit);
+      }
+
+      if (carry > 0) {
+          arrC.push(carry);
+      }
+
+      return arrC.reverse().join("");
+
+    }
+
+    // var testA = "32160";
+    // var testB = "06123";
+    // console.log(addStringsOfSameLength(testA, testB));
+    // console.log(parseInt(testA) + parseInt(testB));
+
+
+    function reverseNumber(n) {
+      n = n + "";
+      return (n.split("").reverse().join(""));
+    }
+
+    function isPalindrome(n) {
+      if (reverseNumber(n) == n) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    function isLych(n) {
+      console.log('====================');
+      console.log('not Lych(' + n + ')');
+      var cur = n;
+      // var isDangerous = false;
+      for(var j = 0; j < 50; j++) {
+        // if (cur > dangerLimit) {
+        //   isDangerous = true;
+        // }
+        cur = addStringsOfSameLength(cur, reverseNumber(cur));
+        if (isPalindrome(cur)) {
+          console.log('iteration: ' + j);
+          console.log('palindrome: ' + cur);
+          if (j > maxIterations) {
+            maxIterations = j;
+          }
+          return false;
+        }
+      }
+      console.log('!!! LYCHEREL !!!');
+      // if (isDangerous) {danger++;}
+      return true;
+    }
+
+
+    </script>
+</head>
+<body>
+  <a href="https://projecteuler.net/problem=55"/>Link to problem.</a>
+</body>
+</html>
