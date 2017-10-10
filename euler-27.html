@@ -1,0 +1,60 @@
+<html>
+<head>
+    <script type="text/javascript">
+      function isPrime(n) {
+        if (n <= 1) {
+          return false;
+        }
+        for (var i = 2; i <= Math.sqrt(n); i++) {
+          if (!(n % i)) {
+            return false;
+          }
+        }
+        return true;
+      }
+
+      function countPrimes(a, b) {
+        var count = 0;
+
+        for (var n = 0; ; n++) {
+          var check = n*n + (a*n) + b;
+          if (isPrime(check)) {
+            count++;
+          } else {
+            return count;
+          }
+        }
+      }
+
+      function executeProblem() {
+        var targetA = -999;
+        var targetB = -1000;
+        var maxPrimeCount = 0;
+
+        for (var a = -999; a <= 999; a++) {
+          for (var b = -1000; b <= 1000; b++) {
+            var curPrimeCount = countPrimes(a, b);
+            if (curPrimeCount > maxPrimeCount) {
+              maxPrimeCount = curPrimeCount;
+              targetA = a;
+              targetB = b;
+            }
+          }
+        }
+
+        console.log("maxPrimeCount: " + maxPrimeCount);
+        console.log("a: " + targetA);
+        console.log("b: " + targetB);
+        console.log("product: " + targetA*targetB);
+      }
+
+      executeProblem();
+      // console.log(countPrimes(1, 41));
+
+
+    </script>
+</head>
+<body>
+  <a href="https://projecteuler.net/problem=27"/>Link to problem.</a>
+</body>
+</html>
