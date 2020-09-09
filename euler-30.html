@@ -1,0 +1,48 @@
+<html>
+<head>
+    <script type="text/javascript">
+      (function () {
+        const fifthPowersMap = [0, 1, 32, 243, 1024, 3125, 7776, 16807, 32768, 59049];
+        
+        const raiseToFifthPower = digit => {
+          if (digit < 0 || digit > 9)
+            console.log('Digit < 0 or > 9! Error!');
+          return fifthPowersMap[digit];
+        }
+
+        const splitIntoDigits = num => {
+          let output = [];
+          const sNumber = num.toString();
+
+          for (var i = 0, len = sNumber.length; i < len; i += 1) {
+            output.push(+sNumber.charAt(i));
+          }
+
+          return output; 
+        }
+
+        const checkNumberAgainstSumOfDigits = num => {
+          const digits = splitIntoDigits(num);
+
+          const reducer = (accumulator, currentValue) => accumulator + raiseToFifthPower(currentValue);
+          const sumOfDigits = digits.reduce(reducer, 0);
+
+          return num === sumOfDigits;
+        }
+
+        let finalSum = 0; 
+        for (let i = 2; i < 400000; i++) {
+          if (checkNumberAgainstSumOfDigits(i)) {
+            finalSum += i;
+            console.log(i + " " + checkNumberAgainstSumOfDigits(i));
+          }
+        }
+        console.log('final sum: ' + finalSum);
+
+      })();
+    </script>
+</head>
+<body>
+  <a href="https://projecteuler.net/problem=30"/>Link to problem.</a>
+</body>
+</html>
