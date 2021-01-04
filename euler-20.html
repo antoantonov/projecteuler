@@ -1,0 +1,173 @@
+<html>
+<head>
+    <script type="text/javascript">
+        (function () {
+
+            /*
+                123 => [3, 2, 1]
+            */
+            const splitIntoDigitsAndReverse = num => {
+                let output = [];
+                const sNumber = num.toString();
+
+                for (var i = 0, len = sNumber.length; i < len; i += 1) {
+                    output.push(+sNumber.charAt(i));
+                }
+
+                return output.reverse(); 
+            }
+
+            /*
+                [3, 2, 1] => 123
+            */
+            const parseNumberFromReversedArray = arr => {
+                return arr.reverse().join('');
+            }
+
+            /*
+                arr is a reversed array representation of number:
+                i.e. 123 is represented as [3, 2, 1]
+
+                [2, 0, 4], 3 => [6, 0, 2, 1]
+            */
+            const manuallyMultiplyByDigit = (arr, digit) => {
+                let result = [];
+                let carry = 0;
+
+                for (let i = 0; i < arr.length; i++) {
+                    const mult = arr[i] * digit + carry;
+                    result.push(mult % 10);
+                    carry = Math.floor(mult / 10);
+                }
+
+                if (carry > 0) {
+                    result.push(carry);
+                }
+
+                return result;
+            }
+
+            /*
+                n1 and n2 are reversed array representations of numbers:
+                i.e. 123 is represented as [3, 2, 1]
+
+                [1, 3, 4, 9], [2, 3, 7] => [3, 6, 1, 0, 1]
+            */
+            const manuallySumTwoNumbers = (n1, n2) => {
+                const requiredLength = Math.max(n1.length, n2.length);
+
+                while (n1.length < requiredLength) {
+                    n1.push(0);
+                }
+
+                while (n2.length < requiredLength) {
+                    n2.push(0);
+                }
+
+                let result = [];
+                let carry = 0;
+
+                for (let i = 0; i < requiredLength; i++) {
+                    tempSum = carry + n1[i] + n2[i];
+                    result.push(tempSum % 10);
+                    carry = Math.floor(tempSum / 10);
+                }
+
+                if (carry > 0) {
+                    result.push(carry);
+                }
+
+                return result;
+            }
+
+            /*
+                arr is a reversed array representation of a number:
+                i.e. 123 is represented as [3, 2, 1]
+
+                [1, 2, 3], 3 => [0, 0, 0, 1, 2, 3]
+            */
+            const manuallyMultiplyByPowerOfTen = (arr, power) => {
+                let result = [];
+
+                for (let i = 0; i < power; i++) {
+                    result.push(0);
+                }
+
+                // console.log(result);
+                result = result.concat(arr);
+                // console.log(arr);
+                // console.log(result);
+
+
+
+                return result;
+            }
+
+            /*
+                n1 and n2 are reversed array representations of numbers:
+                i.e. 123 is represented as [3, 2, 1]
+
+                [5, 4, 3, 2, 1], [3, 2, 1] => [5, 3, 4, 8, 1, 5, 1]
+            */
+            const manuallyMultiplyTwoNumbers = (n1, n2) => {
+                let result = [0];
+                let powerOfTen = 0;
+                
+                for (let i = 0; i < n2.length; i++) {
+                    const digitMultiplicationResult = manuallyMultiplyByDigit(n1, n2[i]);
+                    const currentMultiplicantResult = manuallyMultiplyByPowerOfTen(digitMultiplicationResult, powerOfTen);
+                    result = manuallySumTwoNumbers(result, currentMultiplicantResult);
+                    powerOfTen++;
+                }
+
+                return result;
+            }
+
+
+            /*
+                1 => [1]
+                2 => [2]
+                3 => [6]
+                4 => [4, 2]
+                5 => [0, 2, 1]
+                ...
+                n => <reverse array representation of n!>
+            */
+            const manuallyCalculateFactorial = n => {
+                let result = [1];
+
+                for (let i = 1; i <= n; i++) {
+                    result = manuallyMultiplyTwoNumbers(result, splitIntoDigitsAndReverse(i));
+                }
+
+                return result;
+            }
+
+            const manuallySumDigits = arr => {
+                let result = 0;
+
+                for (let i = 0; i < arr.length; i++) {
+                    result += arr[i];
+                }
+
+                return result;
+            }
+
+            // console.log(splitIntoDigitsAndReverse(123));
+            // console.log(manuallyMultiplyByDigit([2, 0, 2], 5));
+            // console.log(manuallySumTwoNumbers([1, 2, 3, 9], [3, 4, 8]));
+            // console.log(manuallyMultiplyByPowerOfTen([1, 2, 3], 3));
+            // console.log(manuallyMultiplyTwoNumbers([5, 4, 3, 2, 1], [3, 2, 1]));
+            // console.log(manuallyCalculateFactorial(10));
+            // console.log(manuallySumDigits([1, 2, 3]));
+            console.log(manuallySumDigits(manuallyCalculateFactorial(100)));
+
+            
+        })();
+    </script>
+</head>
+<body>
+    <a href="https://projecteuler.net/problem=20"/>Link to problem.</a>
+    <p>Solution is in the console.</p>
+</body>
+</html>
