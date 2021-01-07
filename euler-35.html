@@ -1,0 +1,122 @@
+<html>
+<head>
+    <script type="text/javascript">
+        (function () {
+
+            /*
+                123 => [3, 2, 1]
+            */
+            const splitIntoDigits = num => {
+                let output = [];
+                const sNumber = num.toString();
+
+                for (let i = 0, len = sNumber.length; i < len; i += 1) {
+                    output.push(+sNumber.charAt(i));
+                }
+
+                return output; 
+            }
+
+            /*
+                [3, 2, 1] => 123
+            */
+            const parseNumberFromArray = arr => {
+                return parseInt(arr.join(''));
+            }
+
+            /*
+                123 => [231, 312]
+                122 => [212, 221] i.e. unique permutations only
+            */
+            const permutateNum = num => {
+                const arr = splitIntoDigits(num);
+                let permutations = [];
+                let permutatedArray = [...arr];
+
+                for (let i = 0; i < arr.length; i++) {
+                    firstElement = permutatedArray.shift();
+                    permutatedArray.push(firstElement);
+                    permutations.push(parseNumberFromArray(permutatedArray));
+                }
+
+                permutations = [...new Set(permutations)];
+                permutations = permutations.reverse();
+                permutations.shift();
+                // console.log(permutations);
+
+                return permutations;
+            }
+
+            const isPrime = num => {
+                for (let i = 2; i <= Math.sqrt(num); i++) {
+                    if (!(num % i)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            // console.log(permutateNum(11));
+            // console.log(isPrime(14));
+            // console.log(isPrime(625));
+            // console.log(isPrime(905137));
+
+
+            let primes = [];
+            let circularPrimesCount = 1; // 2 is the first circular prime, but we exclude it from the loop for convenience.
+
+            const countCircularPrimes = upto => {
+                for (let i = 3; i <= upto; i+=2) {
+                    // console.log('====================');
+                    // console.log(i);
+                    if (primes[i] !== undefined) {
+                        // console.log('Already counted.');
+                        // We have already counted this prime.
+                        continue;
+                    }
+
+                    if (isPrime(i)) {
+                        // console.log('Is a new prime.');
+                        checkCircularity(i);
+                    }
+                }
+            }
+
+            const checkCircularity = num => {
+                let areAllPermutationsPrime = true;
+
+                let permutations = permutateNum(num);
+
+                permutations.forEach(function(number) {
+                    if (isPrime(number)) {
+                        primes[number] = true;
+                    } else {
+                        primes[number] = false;
+                        areAllPermutationsPrime = false;
+                    }
+                });
+
+                if (areAllPermutationsPrime) {
+                    // console.log('Is circular together with:');
+                    // console.log(permutations);
+                    circularPrimesCount += permutations.length + 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            countCircularPrimes(1000000);
+            // console.log(primes);
+            console.log(circularPrimesCount);
+
+            
+        })();
+    </script>
+</head>
+<body>
+    <a href="https://projecteuler.net/problem=35"/>Link to problem.</a>
+    <p>Solution is in the console.</p>
+</body>
+</html>
